@@ -1,0 +1,19 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /tts
+
+# 文件基础路径 必填
+file-path: D:\webapp\apps\tts
+# 日志文件路径 必填
+log-file-path: ${file-path}/log
+# 日志配置
+logging:
+  config: classpath:logback-spring.xml
+  file:
+    path: ${log-file-path}
+
+#微信配置
+weixin:
+  appId: wx921ec53b18efbfc0
+  appSecret: a41127a62fd0f985bb106207f685147d

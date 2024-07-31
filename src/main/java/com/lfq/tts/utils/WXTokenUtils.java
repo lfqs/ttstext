@@ -42,9 +42,9 @@ public class WXTokenUtils {
     /**
      * 获取关注公众号用户
      */
-    public static List<Object> getUserList(String appId, String appSecret){
+    public static List<String> getUserList(String appId, String appSecret){
         RestTemplate restTemplate = new RestTemplate();
-        List<Object> openIds = new ArrayList<>();
+        List<String> openIds = new ArrayList<>();
         String accessToken = getAccessToken(appId,appSecret);
         String requestUrl =  "https://api.weixin.qq.com/cgi-bin/user/get?access_token="+ accessToken;
         ResponseEntity<String> response = restTemplate.postForEntity(requestUrl, null, String.class);
@@ -53,17 +53,9 @@ public class WXTokenUtils {
         JSONArray openIdJsonArray = result.getJSONObject("data").getJSONArray("openid");
         Iterator iterator = openIdJsonArray.iterator();
         if (iterator.hasNext()){
-            log.debug("用户openid："+iterator.next());
-            openIds.add(iterator.next());
+            log.info("用户openid："+iterator.next());
+            openIds.add((String) iterator.next());
         }
         return openIds;
     }
-
-    /**
-     * 消息推送
-     */
-    public void sendMessage(){
-
-    }
-
 }

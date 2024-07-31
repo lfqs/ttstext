@@ -29,12 +29,14 @@ public class testController {
     private WeiXinAO weiXinAO;
 
 
+    @GetMapping("/0")
+    public List<String> getToken0(){
+        List<String> openIds = WXTokenUtils.getUserList(weiXinAO.getAppId(),weiXinAO.getAppSecret());
+        return openIds;
+    }
+
     @GetMapping("/1")
     public String getToken1(){
-//        List<Object> openIds = WXTokenUtils.getUserList();
-//        for (Object openid : openIds){
-//            log.info((String) openid);
-//        }
         String openIds = WXTokenUtils.getAccessToken(weiXinAO.getAppId(),weiXinAO.getAppSecret());
         return openIds;
     }

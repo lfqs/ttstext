@@ -2,7 +2,6 @@
 <configuration scan="true" scanPeriod="60 seconds" debug="false">
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
-
     <!--滚动日志-->
     <appender name="fileLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <encoder>
@@ -15,12 +14,9 @@
             <maxFileSize>500MB</maxFileSize>
         </rollingPolicy>
     </appender>
-
-<!--    <logger name="com.lfq.tts" level="DEBUG" />-->
     <logger name="com.lfq.tts" level="INFO" />
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="fileLog"/>
     </root>
-
 </configuration>

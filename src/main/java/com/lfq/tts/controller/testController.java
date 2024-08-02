@@ -1,9 +1,9 @@
 package com.lfq.tts.controller;
 
 import cn.hutool.core.date.DateUtil;
-import com.lfq.tts.utils.WXTokenUtils;
-import com.lfq.tts.wx.domain.WeiXinAO;
-import com.lfq.tts.wx.domain.WeiXinTemplateMsg;
+import com.lfq.tts.tools.wx.utils.WXTokenUtils;
+import com.lfq.tts.config.WeiXinConfig;
+import com.lfq.tts.tools.wx.WeiXinTemplateMsg;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,18 +26,18 @@ import java.util.Map;
 public class testController {
 
     @Resource
-    private WeiXinAO weiXinAO;
+    private WeiXinConfig weiXinConfig;
 
 
     @GetMapping("/0")
     public List<String> getToken0(){
-        List<String> openIds = WXTokenUtils.getUserList(weiXinAO.getAppId(),weiXinAO.getAppSecret());
+        List<String> openIds = WXTokenUtils.getUserList(weiXinConfig.getAppId(), weiXinConfig.getAppSecret());
         return openIds;
     }
 
     @GetMapping("/1")
     public String getToken1(){
-        String openIds = WXTokenUtils.getAccessToken(weiXinAO.getAppId(),weiXinAO.getAppSecret());
+        String openIds = WXTokenUtils.getAccessToken(weiXinConfig.getAppId(), weiXinConfig.getAppSecret());
         return openIds;
     }
 
@@ -51,7 +51,7 @@ public class testController {
         // 公众号的模板id(也有相应的接口可以查询到)
         String templateId = "H-WIVb_omjjdkLlhozxirCM8B1HRyn2D8g2jeIFeZKg";
         // 微信的基础accessToken
-        String accessToken = WXTokenUtils.getAccessToken(weiXinAO.getAppId(),weiXinAO.getAppSecret());
+        String accessToken = WXTokenUtils.getAccessToken(weiXinConfig.getAppId(), weiXinConfig.getAppSecret());
         String requestUrl = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" + accessToken;
 
         sendMag.put("city", new WeiXinTemplateMsg("广州"));

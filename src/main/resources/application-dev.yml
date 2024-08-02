@@ -17,3 +17,7 @@ logging:
 weixin:
   appId: wx921ec53b18efbfc0
   appSecret: a41127a62fd0f985bb106207f685147d
+
+#netty配置
+netty:
+  port: 19080

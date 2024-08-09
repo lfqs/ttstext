@@ -40,12 +40,14 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
         //msg为接收到的客户端传递的数据   个人这边直接传的json 数据
         ByteBuf readMessage= (ByteBuf) msg;
         //解析客户端json 数据
+        String dataXml = readMessage.toString(StandardCharsets.UTF_8);
         log.info("===============================================");
-        log.info("接收到的数据"+readMessage.toString(StandardCharsets.UTF_8));
+        log.info("接收到的数据"+dataXml);
         //获取客户端的请求地址  取到的值为客户端的 ip+端口号
         String url=ctx.channel().remoteAddress().toString();//设备请求地址（个人将设备的请求地址当作 map 的key
         log.info("客户端的请求地址"+url);
         log.info("===============================================");
+
         //返回数据给客户端
         ResponseXmlData responseXmlData = new ResponseXmlData();
         responseXmlData.setCode("0000");

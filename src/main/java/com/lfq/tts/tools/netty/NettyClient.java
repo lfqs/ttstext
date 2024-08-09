@@ -11,8 +11,11 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
+import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.util.CharsetUtil;
 
+import java.net.InetSocketAddress;
 import java.nio.charset.Charset;
 
 /**
@@ -22,42 +25,40 @@ import java.nio.charset.Charset;
  **/
 public class NettyClient {
 
-    public static void main(String[] args) throws Exception {
-        // 创建EventLoopGroup
-         EventLoopGroup boosGroup = new NioEventLoopGroup();
+    public void start() throws Exception {
+        EventLoopGroup group = new NioEventLoopGroup();
         try {
-            // 创建Bootstrap
-            Bootstrap bootstrap = new Bootstrap();
-            bootstrap.group(boosGroup)
-                    .remoteAddress("127.0.0.1", 9080)
+            Bootstrap b = new Bootstrap();
+            b.group(group)
                     .channel(NioSocketChannel.class)
                     .handler(new ChannelInitializer<SocketChannel>() {
                         @Override
-                        protected void initChannel(SocketChannel ch) throws Exception {
-                            ChannelPipeline p = ch.pipeline();
-                            p.addLast(new SimpleChannelInboundHandler<String>() {
-                                @Override
-                                protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
-                                    System.out.println("Received message: " + msg);
-                                }
-                            });
+                        public void initChannel(SocketChannel ch) {
+                            ch.pipeline().addLast(new NettyClientHandler());
                         }
                     });
-            ChannelFuture  f = bootstrap.connect().addListener((ChannelFuture futureListener) -> {
-                if(futureListener.isSuccess()) {
-                    System. out.println( "与服务端连接成功!");
-                }
-            });
+//            ChannelFuture  f = b.connect(new InetSocketAddress("127.0.0.1", 9080)).addListener((ChannelFuture futureListener) -> {
+//                if(futureListener.isSuccess()) {
+//                    System. out.println( "与服务端连接成功!");
+//                }
+//            });
+            ChannelFuture f = b.connect("127.0.0.1", 9080).sync();
             // 假设你有一个String需要发送
-            String message = "Hello, World!";
+            String message = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><返回报文><报文内容><CODE>0000</CODE><MSG>成功</MSG></报文内容></返回报文>";
             // 转换String为ByteBuf
             ByteBuf buf = Unpooled.copiedBuffer(message, Charset.defaultCharset());
-
             f.channel().writeAndFlush(buf).sync();
-            f.channel().closeFuture().sync();
+            if(f.isSuccess()) {
+                f.channel().closeFuture().sync();
+                }
         } finally {
-            boosGroup.shutdownGracefully();
+            group.shutdownGracefully();
         }
+    }
+
+
+    public static void main(String[] args) throws Exception {
+        new NettyClient().start();
     }
 
 }

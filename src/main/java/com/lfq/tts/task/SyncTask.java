@@ -16,8 +16,8 @@ public class SyncTask {
     /**
      * 每一分钟执行一次
      */
-    @Async
-    @Scheduled(cron = "0 0/1 * * * ? ")
+//    @Async
+//    @Scheduled(cron = "0 0/1 * * * ? ")
     public void syncDataToPanel() {
 
         // openId代表一个唯一微信用户，即微信消息的接收人(关照测试账号才会显示)

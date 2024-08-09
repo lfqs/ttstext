@@ -20,4 +20,4 @@ weixin:
 
 #netty配置
 netty:
-  port: 19080
+  port: 9080

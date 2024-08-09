@@ -37,6 +37,7 @@ public class XmlUtils {
         requestXmlData.setRequestUserName("罗伯特");
         String xmldata = createRequestXML(requestXmlData);
         System.out.println(xmldata);
+        System.out.println(analysisRequestXML(xmldata));
     }
 
     /**
@@ -87,8 +88,22 @@ public class XmlUtils {
      * @throws Exception
      */
     public static RequestXmlData analysisRequestXML(String xmlData) throws Exception {
-
-        return null;
+        RequestXmlData requestXmlData = new RequestXmlData();
+        byte[] b = xmlData.getBytes();
+        InputStream inp = new ByteArrayInputStream(b);
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document doc = builder.parse(inp);
+        NodeList nl = doc.getElementsByTagName("发送报文");
+        for (int i = 0; i < nl.getLength(); i++) {
+            String requestDate = doc.getElementsByTagName("REQUEST_DATE").item(i).getFirstChild().getNodeValue();
+            String requestUserName = doc.getElementsByTagName("REQUEST_USERNAME").item(i).getFirstChild().getNodeValue();
+            log.info("REQUEST_DATE:" + requestDate );
+            log.info("REQUEST_USERNAME:" + requestUserName );
+            requestXmlData.setRequestDate(requestDate);
+            requestXmlData.setRequestUserName(requestUserName);
+        }
+        return requestXmlData;
     }
 
 

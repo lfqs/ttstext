@@ -50,7 +50,7 @@ public class NettyClient {
             f.channel().writeAndFlush(buf).sync();
             if(f.isSuccess()) {
                 f.channel().closeFuture().sync();
-                }
+            }
         } finally {
             group.shutdownGracefully();
         }

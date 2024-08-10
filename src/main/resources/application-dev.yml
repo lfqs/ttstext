@@ -1,7 +1,14 @@
 server:
-  port: 8081
+  port: 8080
   servlet:
-    context-path: /tts
+    context-path: /
+
+#开启或者关闭健康监测功能 日志打印的 Exposing 1 endpoint(s) beneath base path '/actuator'
+management:
+  endpoint:
+    health:
+      enabled: false
+
 
 # 文件基础路径 必填
 file-path: D:\webapp\apps\tts
